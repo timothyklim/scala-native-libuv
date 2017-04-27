@@ -10,6 +10,20 @@ object Libuv {
     */
   type LoopT = CStruct1[Ptr[Byte]]
 
+  sealed abstract class RunMode(val value: CInt)
+  object RunMode {
+    case object Default extends RunMode(0)
+    case object Once extends RunMode(1)
+    case object NoWait extends RunMode(2)
+  }
+
+  /** Initializes the given [[LoopT]] structure.
+    *
+    * @see [[http://docs.libuv.org/en/v1.x/loop.html#c.uv_loop_init]]
+    */
+  def loopInit(loop: Ptr[LoopT]): Int =
+    clib.uv_loop_init(loop.asInstanceOf[Ptr[clib.uv_loop_t]]).toInt
+
   /** Returns the initialized default loop. It may return NULL in case of allocation failure.
     * This function is just a convenient way for having a global loop throughout an application, the default loop is in no way different than the ones initialized with [[loopInit()]]. As such, the default loop can (and should) be closed with [[loopClose()]] so the resources associated with it are freed.
     *
@@ -17,6 +31,12 @@ object Libuv {
     */
   def defaultLoop(): Ptr[LoopT] =
     clib.uv_default_loop().asInstanceOf[Ptr[LoopT]]
+
+  def run(loop: Ptr[LoopT], mode: RunMode = RunMode.Default): Int =
+    clib
+      .uv_run(loop.asInstanceOf[Ptr[clib.uv_loop_t]],
+              mode.value.asInstanceOf[clib.uv_run_mode])
+      .toInt
 
   /** Gets the current system uptime.
     *
