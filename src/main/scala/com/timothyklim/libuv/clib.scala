@@ -1,4 +1,4 @@
-package org.libuv
+package com.timothyklim.libuv
 
 import scalanative.native._, stdlib._, stdio._
 import scalanative.runtime.struct
