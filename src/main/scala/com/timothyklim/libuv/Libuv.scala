@@ -59,4 +59,21 @@ object Libuv {
     * @see [[http://docs.libuv.org/en/v1.x/version.html#c.uv_version_string]]
     */
   def versionString(): String = fromCString(clib.uv_version_string())
+
+  type TcpT = clib.uv_tcp_t
+
+  def tcpInit(loop: Ptr[LoopT], handle: Ptr[TcpT]): Int =
+    clib.uv_tcp_init(loop.asInstanceOf[Ptr[clib.uv_loop_t]], handle).toInt
+
+  def ip4Addr(ip: String, port: Int): Ptr[netinet.sockaddr_in] = {
+    val addr = malloc(sizeof[netinet.sockaddr_in]).cast[Ptr[netinet.sockaddr_in]]
+    clib.uv_ip4_addr(toCString(ip), port, addr)
+    addr
+  }
+
+  def ip6Addr(ip: String, port: Int): Ptr[netinet.sockaddr_in6] = {
+    val addr = malloc(sizeof[netinet.sockaddr_in6]).cast[Ptr[netinet.sockaddr_in6]]
+    clib.uv_ip6_addr(toCString(ip), port, addr)
+    addr
+  }
 }

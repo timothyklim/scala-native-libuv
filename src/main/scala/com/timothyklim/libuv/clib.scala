@@ -3,6 +3,8 @@ package com.timothyklim.libuv
 import scalanative.native._, stdlib._, stdio._
 import scalanative.runtime.struct
 
+import netinet._
+
 @link("uv")
 @extern
 object clib {
@@ -88,4 +90,13 @@ object clib {
     * @see [[http://docs.libuv.org/en/v1.x/version.html#c.uv_version_string]]
     */
   def uv_version_string(): CString = extern
+
+  def uv_listen(stream: Ptr[uv_stream_t], backlog: CInt, cb: CFunctionPtr2[Ptr[uv_stream_t], CInt, CInt]): CInt = extern
+
+  def uv_tcp_init(loop: Ptr[uv_loop_t], handle: Ptr[uv_tcp_t]): CInt = extern
+
+  def uv_tcp_bind(handle: Ptr[uv_tcp_t], addr: Ptr[sys.sockaddr] , flags: UInt): CInt = extern
+
+  def uv_ip4_addr(ip: CString, port: CInt, addr: Ptr[sockaddr_in]): CInt = extern
+  def uv_ip6_addr(ip: CString, port: CInt, addr: Ptr[sockaddr_in6]): CInt = extern
 }
