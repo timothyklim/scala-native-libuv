@@ -7,12 +7,51 @@ import scalanative.runtime.struct
 @extern
 object clib {
 
+  /* Handle types. */
+
   /** Loop data type.
     *
     * @see [[http://docs.libuv.org/en/stable/loop.html#c.uv_loop_t]]
     */
   type uv_loop_t = extern
 
+  type uv_handle_t = extern
+  type uv_stream_t = extern
+  type uv_tcp_t = extern
+  type uv_udp_t = extern
+  type uv_pipe_t = extern
+  type uv_tty_t = extern
+  type uv_poll_t = extern
+  type uv_timer_t = extern
+  type uv_prepare_t = extern
+  type uv_check_t = extern
+  type uv_idle_t = extern
+  type uv_async_t = extern
+  type uv_process_t = extern
+  type uv_fs_event_t = extern
+  type uv_fs_poll_t = extern
+  type uv_signal_t = extern
+
+  /* Request types. */
+
+  type uv_req_s = extern
+  type uv_getaddrinfo_s = extern
+  type uv_getnameinfo_s = extern
+  type uv_shutdown_s = extern
+  type uv_write_s = extern
+  type uv_connect_s = extern
+  type uv_udp_send_s = extern
+  type uv_fs_s = extern
+  type uv_work_s = extern
+
+  /* None of the above. */
+
+  type uv_cpu_info_t = extern
+  type uv_interface_address_t = extern
+  type uv_dirent_t = extern
+  type uv_passwd_t = extern
+
+  type uv_loop_option = extern
   type uv_run_mode = extern
 
   /** Initializes the given [[uv_loop_t]] structure.
